@@ -6,22 +6,21 @@ Gem::Specification.new do |s|
   ## Leave these as is they will be modified for you by the rake gemspec task.
   ## If your rubyforge_project name is different, then edit it and comment out
   ## the sub! line in the Rakefile
-  s.name              = 'fog'
-  s.version           = '0.7.2'
-  s.date              = '2011-04-05'
-  s.rubyforge_project = 'fog'
+  s.name              = 'fog_with_ey_backports'
+  s.version           = '0.7.2.1'
+  s.date              = '2012-01-16'
 
   ## Make sure your summary is short. The description may be as long
   ## as you like.
   s.summary     = "brings clouds to you"
-  s.description = "The Ruby cloud services library."
+  s.description = "The Ruby cloud services library. fog_with_ey_backports includes support for new sa-east-1 and us-west-2 regions, on top of mainline fog 0.7.2"
 
   ## List the primary authors. If there are a bunch of authors, it's probably
   ## better to set the email to an email list or something. If you don't have
   ## a custom homepage, consider using your GitHub URL or the like.
   s.authors  = ["geemus (Wesley Beary)"]
   s.email    = 'geemus@gmail.com'
-  s.homepage = 'http://github.com/geemus/fog'
+  s.homepage = 'http://github.com/engineyard/fog'
 
   ## This gets added to the $LOAD_PATH so that 'lib/NAME.rb' can be required as
   ## require 'NAME.rb' or'/lib/NAME/file.rb' can be as require 'NAME/file.rb'
