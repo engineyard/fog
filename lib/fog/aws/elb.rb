@@ -57,10 +57,14 @@ module Fog
             'elasticloadbalancing.ap-southeast-1.amazonaws.com'
           when 'eu-west-1'
             'elasticloadbalancing.eu-west-1.amazonaws.com'
+          when 'sa-east-1'
+            'elasticloadbalancing.sa-east-1.amazonaws.com'
           when 'us-east-1'
             'elasticloadbalancing.us-east-1.amazonaws.com'
           when 'us-west-1'
             'elasticloadbalancing.us-west-1.amazonaws.com'
+          when 'us-west-2'
+            'elasticloadbalancing.us-west-2.amazonaws.com'
           else
             raise ArgumentError, "Unknown region: #{options[:region].inspect}"
           end

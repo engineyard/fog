@@ -220,10 +220,14 @@ module Fog
               'ec2.ap-southeast-1.amazonaws.com'
             when 'eu-west-1'
               'ec2.eu-west-1.amazonaws.com'
+            when 'sa-east-1'
+              'ec2.sa-east-1.amazonaws.com'
             when 'us-east-1'
               'ec2.us-east-1.amazonaws.com'
             when 'us-west-1'
               'ec2.us-west-1.amazonaws.com'
+            when 'us-west-2'
+              'ec2.us-west-2.amazonaws.com'
             else
               raise ArgumentError, "Unknown region: #{options[:region].inspect}"
             end
