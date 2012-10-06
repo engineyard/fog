@@ -27,6 +27,15 @@ def compute_providers
         :name       => "fog_#{Time.now.to_i}"
       }
     },
+    :cloud_sigma => {
+      :mocked => true,
+      :volume_attributes => {
+        :name       => "thom",
+        :encryption => "aes-xts-plain",
+        :media      => "disk",
+        :size       => 16,
+      },
+    },
     :cloudstack => {
       :provider_attributes => {
         :cloudstack_host => 'http://host.foo'
