@@ -6,7 +6,7 @@ module Fog
         def create_volume(options)
           params = {
             :method => :post,
-            :path   => "/drives",
+            :path   => "/2.0/drives/",
           }.merge(options)
 
           request(params)

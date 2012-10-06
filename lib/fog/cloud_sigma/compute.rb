@@ -25,7 +25,7 @@ module Fog
           @host       = "turloapi.#{@region}.cloudsigma.com"
           @username   = options[:cloud_sigma_username]
           @password   = options[:cloud_sigma_password]
-          @connection = Excon.new("https://#{@host}/2.0/", {:ssl_verify_peer => false})
+          @connection = Excon.new("https://#{@host}", ssl_verify_peer: false)
         end
 
         def request(params)
@@ -36,8 +36,11 @@ module Fog
           headers = {
             "Accept"        => "application/json",
             "Authorization" => "Basic #{["#{username}:#{password}"].pack("m*").chomp}",
+            "User-Agent"    => "#{RUBY_DESCRIPTION} fog/#{Fog::VERSION}",
           }.merge(params[:headers] || {})
-          response = @connection.request(method: method, query: query, path: path, expects: expects)
+          request_options = {method: method, path: path, expects: expects, headers: headers, idempotent: false, nonblock: false}
+          request_options.merge!(query: query) if query
+          response = @connection.request(request_options)
           JSON.parse(response.body)
         end
 

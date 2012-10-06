@@ -7,6 +7,12 @@ module Fog
 
       class Volumes < Fog::Collection
 
+        attribute :limit, squash: "meta", alias: "limit"
+        attribute :next, squash: "meta", alias: "next"
+        attribute :previous, squash: "meta", alias: "previous"
+        attribute :offset, squash: "meta", alias: "offset"
+        attribute :count, squash: "meta", alias: "total_count"
+
         model Fog::Compute::CloudSigma::Volume
 
         def all

@@ -6,7 +6,7 @@ module Fog
         def get_volume(id)
           options = {
             :method => :get,
-            :path   => "/drives/#{id}",
+            :path   => "/2.0/drives/#{id}/",
           }
 
           request(options)

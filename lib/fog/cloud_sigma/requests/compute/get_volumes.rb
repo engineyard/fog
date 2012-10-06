@@ -3,13 +3,13 @@ module Fog
     class CloudSigma
       class Real
 
-        def get_volumes(id)
-          options = {
+        def get_volumes(options={})
+          params = {
             :method => :get,
-            :path   => "/drives/detail",
+            :path   => "/2.0/drives/",
           }
 
-          request(options)
+          request(params)
         end
       end
     end
