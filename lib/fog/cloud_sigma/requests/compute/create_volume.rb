@@ -7,6 +7,7 @@ module Fog
           params = {
             :method => :post,
             :path   => "/2.0/drives/",
+            :body   => options
           }.merge(options)
 
           request(params)

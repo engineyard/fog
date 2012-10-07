@@ -1,6 +1,7 @@
 require 'fog/cloud_sigma'
 require 'fog/compute'
 require 'digest/md5'
+require 'json'
 
 module Fog
   module Compute
@@ -32,16 +33,22 @@ module Fog
           method  = params[:method]  || :get
           expects = params[:expects] || [201, 200]
           path    = params[:path]
-          query   = params[:query] || {}
+          query   = params[:query]
+          body    = params[:body]
           headers = {
             "Accept"        => "application/json",
             "Authorization" => "Basic #{["#{username}:#{password}"].pack("m*").chomp}",
+            "Host"          => @host,
             "User-Agent"    => "#{RUBY_DESCRIPTION} fog/#{Fog::VERSION}",
+#             "Content-Type"  => "application/x-www-form-urlencoded",
           }.merge(params[:headers] || {})
+
           request_options = {method: method, path: path, expects: expects, headers: headers, idempotent: false, nonblock: false}
           request_options.merge!(query: query) if query
+          request_options.merge!(body: body.to_json) if body
+
           response = @connection.request(request_options)
-          JSON.parse(response.body)
+          JSON.decode(response.body)
         end
 
       end # Real
