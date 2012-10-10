@@ -31,7 +31,7 @@ module Fog
 
         def request(params)
           method  = params[:method]  || :get
-          expects = params[:expects] || [201, 200]
+          expects = params[:expects] || [200, 201, 202]
           path    = params[:path]
           query   = params[:query]
           body    = params[:body]
@@ -40,7 +40,7 @@ module Fog
             "Authorization" => "Basic #{["#{username}:#{password}"].pack("m*").chomp}",
             "Host"          => @host,
             "User-Agent"    => "#{RUBY_DESCRIPTION} fog/#{Fog::VERSION}",
-#             "Content-Type"  => "application/x-www-form-urlencoded",
+            "Content-Type"  => "application/json",
           }.merge(params[:headers] || {})
 
           request_options = {method: method, path: path, expects: expects, headers: headers, idempotent: false, nonblock: false}

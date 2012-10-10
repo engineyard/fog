@@ -33,7 +33,7 @@ def compute_providers
         :name       => "thom",
         :encryption => "aes-xts-plain",
         :media      => "disk",
-        :size       => 16,
+        :size       => 10737418240, # 10 Gigabytes in bytes
       },
     },
     :cloudstack => {
