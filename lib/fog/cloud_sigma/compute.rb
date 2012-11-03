@@ -36,11 +36,11 @@ module Fog
           query   = params[:query]
           body    = params[:body]
           headers = {
-            "Accept"        => "application/json",
             "Authorization" => "Basic #{["#{username}:#{password}"].pack("m*").chomp}",
+            "Accept"        => "application/json",
+            "Content-Type"  => "application/json",
             "Host"          => @host,
             "User-Agent"    => "#{RUBY_DESCRIPTION} fog/#{Fog::VERSION}",
-            "Content-Type"  => "application/json",
           }.merge(params[:headers] || {})
 
           request_options = {method: method, path: path, expects: expects, headers: headers, idempotent: false, nonblock: false}
@@ -48,7 +48,8 @@ module Fog
           request_options.merge!(body: body.to_json) if body
 
           response = @connection.request(request_options)
-          JSON.decode(response.body)
+          response_body = JSON.decode(response.body) unless response.body.nil?
+          (response_body && response_body[:objects] && response_body[:objects].first) || response_body
         end
 
       end # Real
