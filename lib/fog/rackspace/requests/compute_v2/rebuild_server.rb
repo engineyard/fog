@@ -17,6 +17,16 @@ module Fog
           )
         end
       end
+
+      class Mock
+        def rebuild_server(server_id, image_id)
+          server = self.data[:servers][server_id]
+          response(
+            :body => {"server" => server},
+            :status => 202
+          )
+        end
+      end
     end
   end
 end

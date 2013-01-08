@@ -1,20 +1,24 @@
+connection = Fog::Compute::RackspaceV2.new
+flavor     = Fog.credentials[:rackspace_flavor_id] || connection.flavors.first
+image      = Fog.credentials[:rackspace_image_id]  || connection.images.first
+
 Shindo.tests('Fog::Compute::RackspaceV2 | servers', ['rackspace']) do
-
-  pending if Fog.mocking?
-
-  service = Fog::Compute::RackspaceV2.new
   options = {
     :name => "fog_server_#{Time.now.to_i.to_s}",
-    :flavor_id => 2,
-    :image_id => '3afe97b2-26dc-49c5-a2cc-a2fc8d80c001'
+    :flavor_id => flavor.id,
+    :image_id => image.id
   }
-  collection_tests(service.servers, options, false) do
+  collection_tests(connection.servers, options, true) do
     @instance.wait_for { ready? }
   end
 
   tests("#bootstrap").succeeds do
-    @server = service.servers.bootstrap(options)
+    pending if Fog.mocking?
+    @server = connection.servers.bootstrap(options)
   end
-  @server.destroy
+
+  if @server
+    @server.destroy
+  end
 
 end

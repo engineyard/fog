@@ -1,8 +1,6 @@
+timeout = Fog.mocking? ? 1 : 10
 Shindo.tests('Fog::Rackspace::BlockStorage | snapshot_tests', ['rackspace']) do
-
-  pending if Fog.mocking?
-
-  SNAPSHOT_FORMAT = {
+  snapshot_format = {
     'id' => String,
     'status' => String,
     'display_name' => Fog::Nullable::String,
@@ -12,12 +10,12 @@ Shindo.tests('Fog::Rackspace::BlockStorage | snapshot_tests', ['rackspace']) do
     'created_at' => String
   }
 
-  GET_SNAPSHOT_FORMAT = {
-    'snapshot' => SNAPSHOT_FORMAT
+  get_snapshot_format = {
+    'snapshot' => snapshot_format
   }
 
-  LIST_SNAPSHOT_FORMAT = {
-    'snapshots' => [SNAPSHOT_FORMAT]
+  list_snapshot_format = {
+    'snapshots' => [snapshot_format]
   }
 
   def snapshot_deleted?(service, snapshot_id)
@@ -37,25 +35,25 @@ Shindo.tests('Fog::Rackspace::BlockStorage | snapshot_tests', ['rackspace']) do
     snapshot_id = nil
 
     until service.get_volume(volume_id).body['volume']['status'] == 'available'
-      sleep 10
+      sleep timeout
     end
 
-    tests("#create_snapshot(#{volume_id})").formats(GET_SNAPSHOT_FORMAT) do
+    tests("#create_snapshot(#{volume_id})").formats(get_snapshot_format) do
       service.create_snapshot(volume_id).body.tap do |b|
         snapshot_id = b['snapshot']['id']
       end
     end
 
-    tests("#list_snapshots").formats(LIST_SNAPSHOT_FORMAT) do
+    tests("#list_snapshots").formats(list_snapshot_format) do
       service.list_snapshots.body
     end
 
-    tests("#get_snapshot(#{snapshot_id})").formats(GET_SNAPSHOT_FORMAT) do
+    tests("#get_snapshot(#{snapshot_id})").formats(get_snapshot_format) do
       service.get_snapshot(snapshot_id).body
     end
 
     until service.get_snapshot(snapshot_id).body['snapshot']['status'] == 'available' do
-      sleep 10
+      sleep timeout
     end
 
     tests("#delete_snapshot(#{snapshot_id})").succeeds do
@@ -63,7 +61,7 @@ Shindo.tests('Fog::Rackspace::BlockStorage | snapshot_tests', ['rackspace']) do
     end
 
     until snapshot_deleted?(service, snapshot_id)
-      sleep 10
+      sleep timeout
     end
 
     service.delete_volume(volume_id)

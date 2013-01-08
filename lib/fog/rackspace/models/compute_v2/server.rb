@@ -41,7 +41,7 @@ module Fog
         attribute :addresses
         attribute :flavor_id, :aliases => 'flavor', :squash => 'id'
         attribute :image_id, :aliases => 'image', :squash => 'id'
-        
+
         attr_reader :password
 
         def save
@@ -88,11 +88,11 @@ module Fog
           requires :image_id
           @image ||= connection.images.get(image_id)
         end
-        
+
         def create_image(name, options = {})
           requires :identity
           response = connection.create_image(identity, name, options)
-          response.headers["Location"].match(/\/([^\/]+$)/)[1] rescue nil          
+          response.headers["Location"].match(/\/([^\/]+$)/)[1] rescue nil
         end
 
         def attachments
@@ -103,7 +103,7 @@ module Fog
             })
           end
         end
-        
+
         def private_ip_address
           addresses['private'].select{|a| a["version"] == 4}[0]["addr"]
         end
@@ -156,7 +156,7 @@ module Fog
           @password = password
           true
         end
-        
+
         def setup(credentials = {})
           requires :public_ip_address, :identity, :public_key, :username
           Fog::SSH.new(public_ip_address, username, credentials).run([

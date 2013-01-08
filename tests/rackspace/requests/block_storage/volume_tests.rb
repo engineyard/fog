@@ -1,8 +1,6 @@
 Shindo.tests('Fog::Rackspace::BlockStorage | volume_tests', ['rackspace']) do
 
-  pending if Fog.mocking?
-
-  VOLUME_FORMAT = {
+  volume_format = {
     'id' => String,
     'status' => String,
     'display_name' => Fog::Nullable::String,
@@ -16,12 +14,12 @@ Shindo.tests('Fog::Rackspace::BlockStorage | volume_tests', ['rackspace']) do
     'metadata' => Hash
   }
 
-  GET_VOLUME_FORMAT = {
-    'volume' => VOLUME_FORMAT
+  get_volume_format = {
+    'volume' => volume_format
   }
 
-  LIST_VOLUME_FORMAT = {
-    'volumes' => [VOLUME_FORMAT]
+  list_volume_format = {
+    'volumes' => [volume_format]
   }
 
   service = Fog::Rackspace::BlockStorage.new
@@ -30,17 +28,17 @@ Shindo.tests('Fog::Rackspace::BlockStorage | volume_tests', ['rackspace']) do
     id = nil
     size = 10
 
-    tests("#create_volume(#{size})").formats(GET_VOLUME_FORMAT) do
+    tests("#create_volume(#{size})").formats(get_volume_format) do
       data = service.create_volume(size).body
       id = data['volume']['id']
       data
     end
 
-    tests("#list_volumes").formats(LIST_VOLUME_FORMAT) do
+    tests("#list_volumes").formats(list_volume_format) do
       service.list_volumes.body
     end
 
-    tests("#get_volume(#{id})").formats(GET_VOLUME_FORMAT) do
+    tests("#get_volume(#{id})").formats(get_volume_format) do
       service.get_volume(id).body
     end
 
