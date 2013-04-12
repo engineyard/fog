@@ -2,9 +2,11 @@ module Fog
   module Errors
 
     class Error < StandardError
-      attr_accessor :verbose
+      attr_accessor :verbose, :error
 
       def self.slurp(error, message = nil)
+        @error = error
+
         new_error = new(message)
         new_error.set_backtrace(error.backtrace)
         new_error.verbose = error.message
@@ -17,9 +19,9 @@ module Fog
     class NotFound < Fog::Errors::Error; end
 
     class LoadError < LoadError; end
-    
+
     class TimeoutError< Fog::Errors::Error; end
-    
+
     class NotImplemented < Fog::Errors::Error; end
 
     # @return [String] The error message that will be raised, if credentials cannot be found
